@@ -7,13 +7,11 @@ import {
   NavLink,
   useLocation,
 } from "react-router-dom";
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import './final.css'
 import './App.css';
 import { mainURL, userInfo, hotels } from "./settings";
-import Hobbys from './hobbys.js';
 import hotelFacade from "./hotelFacade";
-import jokeFacade from "./jokeFacade";
+import bookingFacade from "./bookingFacade";
 
 
 function LogIn({ login }) {
@@ -66,9 +64,7 @@ function LoggedIn() {
 
   return (
     <div>
-      <h2>Data Received from server</h2>
-      <h3>{dataFromServer}</h3>
-      {errorMessage}
+
     </div>
   )
 
@@ -81,7 +77,7 @@ function Header({ isLoggedIn }) {
 
         <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
         {isLoggedIn && (
-          <li><NavLink activeClassName="active" to="/hobbies">Hobbies</NavLink></li>
+          <li><NavLink activeClassName="active" to="/booking">Booking</NavLink></li>
         )}
         {isLoggedIn && (
         <li><NavLink activeClassName="active" to="/hotel">Hotel Search</NavLink></li>
@@ -131,6 +127,15 @@ function AllHotels() {
   )
 }
 
+function Booking() {
+  let bookingData = bookingFacade();
+  return (
+    <div>
+      {bookingData}
+    </div>
+  )
+}
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
@@ -161,6 +166,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route path="/booking">
+            <Booking bookingFacade={bookingFacade} />
           </Route>
           <Route path="/hotel">
             <Hotel hotelFacade={hotelFacade} />

@@ -1,3 +1,4 @@
+import { mainURL, hotels, bookings } from "./settings";
 const URL = "http://localhost:8080/startkodeca3";
  
 function handleHttpErrors(res) {
@@ -48,6 +49,25 @@ const fetchDefault = (callback) => {
   .then(data => {callback(data)})
 }
 
+const addBooking = (booking) => {
+  const options = makeOptions("POST", true, booking);
+  return fetch(mainURL + bookings, options)
+  .then(handleHttpErrors)
+  .then((data) => {
+    console.log(mainURL + bookings, options);
+  })
+}
+
+const fetchBookings = (callback, name) => {
+  const options = makeOptions("GET", true);
+  return fetch(mainURL + bookings + "/" + name, options)
+  .then(handleHttpErrors)
+  .then((data) => {
+    console.log(data)
+    callback(data);
+  })
+}
+
 const makeOptions= (method,addToken,body) =>{
    var opts = {
      method: method,
@@ -72,7 +92,9 @@ const makeOptions= (method,addToken,body) =>{
      login,
      logout,
      fetchData,
-     fetchDefault
+     fetchDefault,
+     addBooking,
+     fetchBookings
  }
 }
 

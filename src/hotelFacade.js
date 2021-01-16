@@ -13,7 +13,6 @@ function handleHttpErrors(res) {
 function HotelFacade() {
 
     const GetAllHotels = () => {
-        let { path, url } = useRouteMatch();
         const hotelObject = [
             {
                 id: "",
