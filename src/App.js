@@ -10,9 +10,9 @@ import {
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './final.css'
 import './App.css';
-import { mainURL, userInfo, hobbyInfo } from "./settings";
+import { mainURL, userInfo, hotels } from "./settings";
 import Hobbys from './hobbys.js';
-import hobbyFacade from "./hobbyFacade";
+import hotelFacade from "./hotelFacade";
 import jokeFacade from "./jokeFacade";
 
 
@@ -83,8 +83,10 @@ function Header({ isLoggedIn }) {
         {isLoggedIn && (
           <li><NavLink activeClassName="active" to="/hobbies">Hobbies</NavLink></li>
         )}
-        <li><NavLink activeClassName="active" to="/company">Company</NavLink></li>
-        <li><NavLink activeClassName="active" to="/joke">Joke</NavLink></li>
+        {isLoggedIn && (
+        <li><NavLink activeClassName="active" to="/hotel">Hotel Search</NavLink></li>
+        )}
+        <li><NavLink activeClassName="active" to="/hotels">Hotels</NavLink></li>
       </ul>
 
       <hr />
@@ -111,59 +113,20 @@ function Home() {
   )
 }
 
-const Users = () => {
-  const [usersData, setUsersData] = useState("")
-
-  useEffect(() => {
-    hobbyFacade.getUser().then(data => setUsersData(data));
-  }, [])
+function Hotel() {
+  let hotelData = hotelFacade.GetHotel();
   return (
     <div>
-      <h2>All users:</h2>
-      <h2>{usersData}</h2>
+      {hotelData}
     </div>
   )
 }
 
-const Hobby = () => {
-  const init = {
-    name: "",
-    type: ""
-  }
-  const [hobbyData, setHobbyData] = useState(init)
-
-  useEffect(() => {
-    hobbyFacade.getHobby().then(data => setHobbyData(data));
-    console.log(hobbyData.value)
-  }, [])
-
+function AllHotels() {
+  let hotelData = hotelFacade.GetAllHotels();
   return (
     <div>
-      <h2>Hobbies</h2>
-      <li>
-        {JSON.stringify(hobbyData)}
-      </li>
-      <li>Hobby: {hobbyData.name}</li>
-    </div>
-  )
-}
-
-const Joke = () => {
-  const init = {
-    joke: "",
-    url: ""
-  }
-  const [joke, setJoke] = useState(init);
-
-  useEffect(() => {
-    jokeFacade.getJoke().then(data => setJoke(data));
-    console.log(joke.value)
-  }, [])
-  return (
-    <div>
-      <h2>Chuck Joke</h2>
-      <li>Joke: {joke.value}</li>
-      <li>Url: {joke.url}</li>
+      {hotelData}
     </div>
   )
 }
@@ -199,13 +162,11 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/hobbies">
-            <Hobby />
+          <Route path="/hotel">
+            <Hotel hotelFacade={hotelFacade} />
           </Route>
-          <Route path="/company">
-          </Route>
-          <Route path="/joke">
-            <Joke />
+          <Route path="/hotels">
+            <AllHotels hotelFacade={hotelFacade} />
           </Route>
           <Route path="*">
             <NoMatch />

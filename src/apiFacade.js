@@ -1,4 +1,4 @@
-const URL = "https://www.josefsendavid.dk/ca3";
+const URL = "http://localhost:8080/startkodeca3";
  
 function handleHttpErrors(res) {
  if (!res.ok) {
@@ -43,7 +43,7 @@ const fetchData = () => {
 
 const fetchDefault = (callback) => {
   const options = makeOptions("GET")
-  return fetch("https://www.josefsendavid.dk/ca3/api/hobby", options)
+  return fetch("http://localhost:8080/startkodeca3/api/hotel/all", options)
   .then(handleHttpErrors)
   .then(data => {callback(data)})
 }
